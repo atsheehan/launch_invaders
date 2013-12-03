@@ -22,15 +22,19 @@ class LaunchInvaders < Gosu::Window
       draw_rect(invader.bounds, Gosu::Color::WHITE)
     end
 
-    draw_rect(@world.player.bounds, Gosu::Color::RED)
+    @world.lasers.each do |laser|
+      draw_rect(laser.bounds, Gosu::Color::RED)
+    end
+
+    draw_rect(@world.player.bounds, Gosu::Color::BLUE)
   end
 
   def button_down(id)
     case id
     when Gosu::KbLeft
-      @world.player_accelerate_left
+      @world.player_accelerate(:left)
     when Gosu::KbRight
-      @world.player_accelerate_right
+      @world.player_accelerate(:right)
     when Gosu::KbSpace
       @world.player_fire_laser
     end
@@ -39,9 +43,9 @@ class LaunchInvaders < Gosu::Window
   def button_up(id)
     case id
     when Gosu::KbLeft
-      @world.player_decelerate_left
+      @world.player_decelerate(:left)
     when Gosu::KbRight
-      @world.player_decelerate_right
+      @world.player_decelerate(:right)
     end
   end
 
@@ -53,7 +57,7 @@ class LaunchInvaders < Gosu::Window
       rect.left, rect.bottom, color,
       rect.right, rect.top, color,
       rect.right, rect.bottom, color
-    )
+      )
   end
 end
 
