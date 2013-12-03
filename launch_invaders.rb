@@ -21,6 +21,28 @@ class LaunchInvaders < Gosu::Window
     @world.invaders.each do |invader|
       draw_rect(invader.bounds, Gosu::Color::WHITE)
     end
+
+    draw_rect(@world.player.bounds, Gosu::Color::RED)
+  end
+
+  def button_down(id)
+    case id
+    when Gosu::KbLeft
+      @world.player_accelerate_left
+    when Gosu::KbRight
+      @world.player_accelerate_right
+    when Gosu::KbSpace
+      @world.player_fire_laser
+    end
+  end
+
+  def button_up(id)
+    case id
+    when Gosu::KbLeft
+      @world.player_decelerate_left
+    when Gosu::KbRight
+      @world.player_decelerate_right
+    end
   end
 
   private

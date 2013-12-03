@@ -7,6 +7,7 @@ class World
     @invaders_remaining = invader_count
     @spawn_delay = 0
     @invaders = []
+    @player = Player.new(width, height)
   end
 
   def update
@@ -22,6 +23,77 @@ class World
 
     @invaders.each do |invader|
       invader.update()
+    end
+
+    @player.update()
+  end
+
+  def player
+    @player
+  end
+
+  def player_accelerate_right
+    @player.accelerate(:right)
+  end
+
+  def player_accelerate_left
+    @player.accelerate(:left)
+  end
+
+  def player_fire_laser
+    puts "pew pew pew"
+  end
+
+  def player_decelerate_right
+    @player.decelerate(:right)
+  end
+
+  def player_decelerate_left
+    @player.decelerate(:left)
+  end
+end
+
+class Player
+  def initialize(width, height)
+    starting_x = (width - size.x) / 2
+    starting_y = 9 * height / 10
+
+    @pos = Vec2D.new(starting_x, starting_y)
+    @accel_left = 0
+    @accel_right = 0
+  end
+
+  def size
+    Vec2D.new(20, 20)
+  end
+
+  def vel
+    Vec2D.new(@accel_left + @accel_right, 0)
+  end
+
+  def bounds
+    Rect.new(@pos, size)
+  end
+
+  def update
+    @pos = @pos.add(vel)
+  end
+
+  def accelerate(direction)
+    case direction
+    when :left
+      @accel_left = -1
+    when :right
+      @accel_right = 1
+    end
+  end
+
+  def decelerate(direction)
+    case direction
+    when :left
+      @accel_left = 0
+    when :right
+      @accel_right = 0
     end
   end
 end
@@ -42,8 +114,12 @@ class Invader
     Rect.new(@pos, size)
   end
 
+  def vel
+    Vec2D.new(0, 1)
+  end
+
   def update
-    @pos = @pos.add(0, 1)
+    @pos = @pos.add(vel)
   end
 end
 
@@ -78,7 +154,7 @@ class Vec2D
     @y = y
   end
 
-  def add(x, y)
-    Vec2D.new(@x + x, @y + y)
+  def add(other)
+    Vec2D.new(x + other.x, y + other.y)
   end
 end
