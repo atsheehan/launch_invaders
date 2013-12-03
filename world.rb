@@ -18,7 +18,10 @@ end
 
 class Invader
   def initialize(max_width)
-    @pos = Vec2D.new(100, 20)
+    max_starting_x = max_width - size.x
+    starting_x = rand(max_starting_x)
+
+    @pos = Vec2D.new(starting_x, 20)
   end
 
   def size
