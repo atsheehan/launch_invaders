@@ -4,6 +4,7 @@ require_relative 'vec2d'
 class Laser
   def initialize(pos)
     @pos = pos
+    @destroyed = false
   end
 
   def size
@@ -18,7 +19,15 @@ class Laser
     Vec2D.new(0, -5)
   end
 
-  def update
+  def move
     @pos = @pos.add(vel)
+  end
+
+  def destroy
+    @destroyed = true
+  end
+
+  def destroyed?
+    @destroyed
   end
 end

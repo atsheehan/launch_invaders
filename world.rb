@@ -26,14 +26,27 @@ class World
     end
 
     @invaders.each do |invader|
-      invader.update()
+      invader.move()
     end
 
     @lasers.each do |laser|
-      laser.update()
+      laser.move()
     end
 
-    @player.update()
+    @player.move()
+
+    @lasers.each do |laser|
+      @invaders.each do |invader|
+        if laser.bounds.overlaps?(invader.bounds)
+          laser.destroy()
+          invader.destroy()
+          break
+        end
+      end
+    end
+
+    @lasers = @lasers.reject { |laser| laser.destroyed? }
+    @invaders = @invaders.reject { |invader| invader.destroyed? }
   end
 
   def player_accelerate(direction)

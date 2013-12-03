@@ -4,6 +4,7 @@ class Invader
     starting_x = rand(max_starting_x)
 
     @pos = Vec2D.new(starting_x, 20)
+    @destroyed = false
   end
 
   def size
@@ -18,7 +19,15 @@ class Invader
     Vec2D.new(0, 1)
   end
 
-  def update
+  def move
     @pos = @pos.add(vel)
+  end
+
+  def destroy
+    @destroyed = true
+  end
+
+  def destroyed?
+    @destroyed
   end
 end

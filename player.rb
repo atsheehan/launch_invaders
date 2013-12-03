@@ -24,7 +24,7 @@ class Player
     Rect.new(@pos, size)
   end
 
-  def update
+  def move
     @pos = @pos.add(vel)
   end
 

@@ -19,4 +19,9 @@ class Rect
   def right
     @origin.x + @size.x
   end
+
+  def overlaps?(other)
+    top < other.bottom && bottom > other.top &&
+      right > other.left && left < other.right
+  end
 end
